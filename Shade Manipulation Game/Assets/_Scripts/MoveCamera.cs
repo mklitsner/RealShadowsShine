@@ -4,38 +4,29 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour {
 
+	public Transform focus;
+
+	Vector3 cameraPos; 
+
+	Vector3 focusPos;
+
+	Vector3 relativePos;
+
 	// Use this for initialization
 	void Start () {
+
+		cameraPos=this.transform.position;
+		focusPos = focus.position;
+		relativePos = new Vector3 (cameraPos.x - focusPos.x, cameraPos.y - focusPos.y, cameraPos.z - focusPos.z);
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		triggerEnter south = transform.GetChild (0).transform.GetComponent<triggerEnter> ();
-		triggerEnter north = transform.GetChild (1).transform.GetComponent<triggerEnter> ();
-		triggerEnter west = transform.GetChild (2).transform.GetComponent<triggerEnter> ();
-		triggerEnter east = transform.GetChild (3).transform.GetComponent<triggerEnter> ();
 
-		if (south.entered) {
-			this.transform.Translate (0, 0, -1	,Space.World);
-		south.entered = false;
-		}
-		if (north.entered) {
-			this.transform.Translate (0, 0, 1,Space.World);
-		north.entered = false;
-		}
-		if (west.entered) {
-			this.transform.Translate (-1, 0, 0,Space.World);
-		west.entered = false;
-		}
-		if (east.entered) {
-			this.transform.Translate (0, 0, 1,Space.World);
-			east.entered = false;
-		}
-			
+		focusPos = focus.position;
 
+		this.transform.position = new Vector3 (relativePos.x + focusPos.x, relativePos.y + focusPos.y, relativePos.z + focusPos.z);
 
 	}
-
-
 }

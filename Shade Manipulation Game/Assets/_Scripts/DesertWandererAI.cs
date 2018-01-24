@@ -44,6 +44,22 @@ public class DesertWandererAI: MonoBehaviour {
 
 	public Vector3 sunPosition;
 	// Use this for initialization
+
+
+	//path follow
+
+	public EditorPathScript PathToFollow;
+
+	public int CurrentWayPointID = 0;
+	private float reachDistance = 1.0f;
+	public string pathName;
+
+	Vector3 last_position;
+	Vector3 current_position;
+	//
+
+
+
 	void Start () {
 		StartCoroutine (FootPrintTiming (1));
 		footprints = true;
@@ -58,6 +74,12 @@ public class DesertWandererAI: MonoBehaviour {
 		maxDistance = 5;
 
 		speed = 2;
+
+
+
+		//path follow
+		PathToFollow = GameObject.Find(pathName).GetComponent<EditorPathScript>();
+		last_position =transform.position;
 	}
 
 
@@ -68,6 +90,19 @@ public class DesertWandererAI: MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		//path follow
+		float distance = Vector3.Distance(PathToFollow.path_objs[CurrentWayPointID].position, transform.position);
+		//transform.position = Vector3.MoveTowards (transform.position, PathToFollow.path_objs [CurrentWayPointID].position, Time.deltaTime*currentspeed);
+
+		var rotation = Quaternion.LookRotation (PathToFollow.path_objs [CurrentWayPointID].position - transform.position);
+		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * currentrotationSpeed);
+
+
+		if (distance <= reachDistance) {
+			CurrentWayPointID++;
+		
+		}
 
 
 

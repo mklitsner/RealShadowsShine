@@ -26,7 +26,7 @@ public class RandomColor : MonoBehaviour {
 	private IEnumerator ChangeColor(float _duration){
 		while (currentColor != Color.black) {
 			currentColor = new Color (Random.Range (0.1f, 0.75f), Random.Range (0.1f, 0.75f), Random.Range (0.1f, 0.75f));
-			print ("colorchange");
+
 			yield return new WaitForSeconds (Random.Range(0.01f,0.5f));
 		}
 		

@@ -9,8 +9,14 @@ public class GrowInshade : MonoBehaviour {
 	public Vector3 maxScale;
 
 	public float growSpeed = 2f;
+	public float shrinkSpeed = 2f;
+
 	public float duration = 5f;
+	public float stayLimit=1.1f;
+	public bool stay;
+	//set to above one if you want a stay 
 	float i = 0.0f;
+
 
 
 	// Use this for initialization
@@ -19,15 +25,19 @@ public class GrowInshade : MonoBehaviour {
 	void Update(){
 		bool inshade = transform.parent.GetComponent<DetectShade> ().inshade;
 
-		float rate = (1.0f / duration) * growSpeed;
+		float rate_1 = (1.0f / duration) * growSpeed;
+		float rate_2 = (1.0f / duration) * shrinkSpeed;
 
 		if (inshade) {
 			if (i < 1.0f) {
-				i += Time.deltaTime * rate;
+				i += Time.deltaTime * rate_1;
 			}
 		} else {
-			if (i > 0.0f) {
-				i -= Time.deltaTime * rate;
+			if (i > 0.0f&& i<stayLimit) {
+				i -= Time.deltaTime * rate_2;
+			}
+			if (i > stayLimit) {
+				stay = true;
 			}
 		}
 		transform.localScale = Vector3.Slerp (minScale, maxScale, i);

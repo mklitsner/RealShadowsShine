@@ -16,7 +16,7 @@ public class MoveCamera : MonoBehaviour {
 	void Start () {
 
 		cameraPos=this.transform.position;
-		focusPos = focus.position;
+		focusPos = focus	.position;
 		relativePos = new Vector3 (cameraPos.x - focusPos.x, cameraPos.y - focusPos.y, cameraPos.z - focusPos.z);
 		
 	}

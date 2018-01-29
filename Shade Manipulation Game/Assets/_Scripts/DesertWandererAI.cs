@@ -10,7 +10,6 @@ public class DesertWandererAI: MonoBehaviour {
 	public GameObject footprint;
 	public GameObject ghost;
 	public GameObject self;
-	public GameObject cactus;
 	int footprintSide=1;
 
 	const string resting = "resting";
@@ -44,7 +43,7 @@ public class DesertWandererAI: MonoBehaviour {
 
 	public Vector3 sunPosition;
 	// Use this for initialization
-
+	Vector3 spawnPos;
 
 	//path follow
 
@@ -61,6 +60,7 @@ public class DesertWandererAI: MonoBehaviour {
 
 
 	void Start () {
+		spawnPos = this.transform.position;
 		StartCoroutine (FootPrintTiming (1));
 		footprints = true;
 		state = wandering;
@@ -74,7 +74,7 @@ public class DesertWandererAI: MonoBehaviour {
 		maxDistance = 5;
 
 		speed = 2;
-
+		CurrentWayPointID = 0;
 
 
 		//path follow
@@ -112,7 +112,7 @@ public class DesertWandererAI: MonoBehaviour {
 		if (!inshade) {
 			if (heat > 0.2f) {
 				//if heated
-				SetSpeed(0.1f/heat);
+				SetSpeed(0.2f/heat);
 				MoveForward (currentspeed);
 			} else {
 				SetSpeed(1);
@@ -384,13 +384,13 @@ public class DesertWandererAI: MonoBehaviour {
 	void Respawn(){
 
 
-		Vector3 spawnPos = new Vector3 (Random.Range (-3, 3), 1.62f, Random.Range (-3, 3));
+
 		GameObject selfClone=(GameObject)Instantiate(self,transform.position,Quaternion.identity);
+
 		selfClone.transform.position = spawnPos;
 		selfClone.transform.GetComponent<DesertWandererAI>().state = wandering;
 		selfClone.transform.GetComponent<DesertWandererAI>().heat = 0;
 		selfClone.transform.GetComponent<DesertWandererAI>().tiredness = 0;
-		GameObject cactusClone=(GameObject)Instantiate(cactus,transform.position,Quaternion.identity);
 
 
 

@@ -37,7 +37,7 @@ public float sensitivity = 1f;
 
 
 
-		ChangeSunCoordinatesNatural();
+		ChangeSunCoordinatesTwoButton();
 		ChangeSunPitch ();
 		MoveSun ();
 	}
@@ -49,6 +49,29 @@ public float sensitivity = 1f;
 	}
 
 
+
+	void ChangeSunCoordinatesTwoButton(){
+
+		if (Input.GetKey("left")) {
+
+			sunYrotate = sensitivity;
+		} else if (Input.GetKey ("right")) {
+
+			sunYrotate = -sensitivity;
+		}else{
+			if(sunYrotate>0){
+				sunYrotate = sunYrotate-deacceleration;
+				if (sunYrotate <= 0) {
+					sunYrotate = 0;
+				}
+			}else if (sunYrotate<0){
+				sunYrotate = sunYrotate+deacceleration;
+				if (sunYrotate >= 0) {
+					sunYrotate = 0;
+				}
+			}
+		}
+	}
 
 
 	void ChangeSunCoordinatesNatural(){

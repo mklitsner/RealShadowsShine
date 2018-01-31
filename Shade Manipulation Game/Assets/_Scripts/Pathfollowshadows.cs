@@ -13,7 +13,7 @@ public class Pathfollowshadows : MonoBehaviour {
 
 	bool inshade;
 
-	float currentspeed;
+	public float currentspeed;
 
 	float rotationSpeed;
 
@@ -22,7 +22,7 @@ public class Pathfollowshadows : MonoBehaviour {
 	//
 	// Use this for initialization
 	void Start () {
-		currentspeed = 5;
+		rotationSpeed = 5;
 	}
 	
 	// Update is called once per frame

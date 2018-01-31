@@ -109,29 +109,38 @@ public class DesertWandererAI: MonoBehaviour {
 		DetectShade();
 
 		//WHAT HAPPENS IF NOT IN THE SHADE
-		if (!inshade) {
-			if (heat > 0.2f) {
-				//if heated
-				SetSpeed(0.2f/heat);
-				MoveForward (currentspeed);
-			} else {
-				SetSpeed(1);
-				MoveForward(currentspeed);
-			}
+
+		if (state == wandering) {
+			if (!inshade) {
+				if (heat > 0.2f) {
+					//if heated
+					SetSpeed (0.2f / heat);
+					MoveForward (currentspeed);
+				} else {
+					SetSpeed (1);
+					MoveForward (currentspeed);
+				}
 			}
 
 
 		//WHAT HAPPENS IF IN THE SHADE
 		else if (inshade) {
-			SetSpeed(1);
-			MoveForward(currentspeed);
+				SetSpeed (1);
+				MoveForward (currentspeed);
 			
 
+			}
+			if (heat >= 1 && tiredness >= 1) {
+				SetState (resting);
+			}
+		}
+		if (state == resting) {
+			if (heat <= 0 && tiredness <= 0) {
+				SetState (wandering);
+			}
 		}
 
-		if (heat >= 1 && tiredness >= 1) {
-			SetState (dead);
-		}
+	
 
 		SetHeat (0.005f,0.01f);
 		SetTiredness (0.001f, 0.02f);
@@ -156,11 +165,7 @@ public class DesertWandererAI: MonoBehaviour {
 			break;
 
 		case dead:
-			//dies and becomes cactus man
-			Vector3 ghostPos = new Vector3 (transform.localPosition.x, transform.localPosition.y + 1f, transform.localPosition.z);
-			GameObject ghostclone = (GameObject)Instantiate (ghost, ghostPos, Quaternion.identity);
-			Respawn ();
-			Destroy(gameObject);
+			
 			break;
 
 		case wandering:
@@ -195,44 +200,22 @@ public class DesertWandererAI: MonoBehaviour {
 		transform.Rotate (0, _angle, 0);
 	}
 
-	void TurnToHead(){
-		Vector3 _headDirection= transform.GetChild (0).transform.eulerAngles;
-		if (turnTime >= 1) {
-			turnTime = 1;
-		} else {
-			turnTime = turnTime + Time.deltaTime * rotationSpeed;
-			//turn a certain amount
-			Debug.DrawRay(transform.position,_headDirection);
-
-			transform.rotation = Quaternion.Lerp (Quaternion.Euler (0, turnangle, 0), Quaternion.Euler (0, _headDirection.y, 0), turnTime);
-		}
-	}
-
-
-	void MoveRandomly(float _speed){
-		float newrotationFrequency = (heat + 1) * rotationFrequency;
-		float _angle = Mathf.Cos (Time.time * newrotationFrequency) * rotationSpeed;
-		//float angle = Random.Range (-10, 10);
-		//transform.Rotate (0, angle, 0);
-		transform.Translate (0, 0, _speed * Time.deltaTime);
-		transform.Rotate (0, _angle, 0);
+//	void TurnToHead(){
+//		Vector3 _headDirection= transform.GetChild (0).transform.eulerAngles;
+//		if (turnTime >= 1) {
+//			turnTime = 1;
+//		} else {
+//			turnTime = turnTime + Time.deltaTime * rotationSpeed;
+//			//turn a certain amount
+//			Debug.DrawRay(transform.position,_headDirection);
+//
+//			transform.rotation = Quaternion.Lerp (Quaternion.Euler (0, turnangle, 0), Quaternion.Euler (0, _headDirection.y, 0), turnTime);
+//		}
+//	}
 
 
-		if(wanderingtime>0){
-			WanderingTimer ();
-			turnangle = transform.localEulerAngles.y;
-			turnTime = 0;
-		}else if (wanderingtime <= 0) {
-			turnTime = turnTime + Time.deltaTime * rotationSpeed;
-			//turn a certain amount
-			transform.localRotation = Quaternion.Lerp (Quaternion.Euler (0,turnangle,0), Quaternion.Euler (0, newturnangle, 0), turnTime);
-			if (turnTime >= 1) {
-				ResetWanderingTimer (initialwanderingtime - heat*0.5f*initialwanderingtime);
-				newturnangle = newturnangle + Random.Range (100, 45) * RandomSign ();
-			}
-		}
 
-	}
+
 
 	int RandomSign(){
 		if (Random.Range (0, 2) == 0) {
@@ -243,11 +226,11 @@ public class DesertWandererAI: MonoBehaviour {
 	}
 
 
-	void WanderingTimer(){
-		//wanders in a direction for a certain amount of time, 
-		//if its doesnt see anything or bump into its own foot prints, it turns;
-		wanderingtime=wanderingtime-Time.deltaTime;
-	}
+//	void WanderingTimer(){
+//		//wanders in a direction for a certain amount of time, 
+//		//if its doesnt see anything or bump into its own foot prints, it turns;
+//		wanderingtime=wanderingtime-Time.deltaTime;
+//	}
 
 	void ResetWanderingTimer(float _initialTime){
 		if (wanderingtime <= 0) {
@@ -259,16 +242,16 @@ public class DesertWandererAI: MonoBehaviour {
 
 
 
-	void SearchForShade(){
-		bool seeShade =transform.GetChild (0).GetChild(0).GetComponent<ShadeSearcher> ().inshade;
-
-		if (seeShade) {
-			if (state != sawSomething) {
-				SetState (sawSomething);
-			}
-			print ("saw Shade");
-		}
-	}
+//	void SearchForShade(){
+//		bool seeShade =transform.GetChild (0).GetChild(0).GetComponent<ShadeSearcher> ().inshade;
+//
+//		if (seeShade) {
+//			if (state != sawSomething) {
+//				SetState (sawSomething);
+//			}
+//			print ("saw Shade");
+//		}
+//	}
 
 
 	void DetectShade(){
@@ -298,7 +281,7 @@ public class DesertWandererAI: MonoBehaviour {
 	private IEnumerator FootPrintTiming(float _duration){
 
 
-		while (state!=dead)
+		while (state!=resting)
 		{
 			footprintSide=-1*footprintSide;
 			Vector3 footprintposition = new Vector3 (transform.localPosition.x + 0.05f*footprintSide, transform.localPosition.y-0.5f,transform.localPosition.z);
@@ -334,12 +317,12 @@ public class DesertWandererAI: MonoBehaviour {
 		
 
 	void SetTiredness(float _increasetiredness,float _decreasetiredness){
-		if (state != resting) {
+		if (state != resting && !inshade) {
 			if (tiredness >= 1) {
 				tiredness = 1;
 
 			} else {
-				tiredness = tiredness + _increasetiredness + _increasetiredness * heat;
+				tiredness = tiredness + _increasetiredness * heat;
 
 			}
 		}
@@ -354,7 +337,7 @@ public class DesertWandererAI: MonoBehaviour {
 				} else {
 				//if sleeping in the sun and becomes too hot, he dies
 					if (heat >= 1) {
-						SetState (dead);
+					SetState (resting);
 					}
 				}
 		}

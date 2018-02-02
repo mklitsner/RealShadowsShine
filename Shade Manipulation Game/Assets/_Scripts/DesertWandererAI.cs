@@ -63,7 +63,7 @@ public class DesertWandererAI: MonoBehaviour {
 		spawnPos = this.transform.position;
 		StartCoroutine (FootPrintTiming (1));
 		footprints = true;
-		state = wandering;
+		state = resting;
 		rotationSpeed=1;
 		rotationFrequency=1;
 		SetState (wandering);
@@ -91,18 +91,7 @@ public class DesertWandererAI: MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//path follow
-		float distance = Vector3.Distance(PathToFollow.path_objs[CurrentWayPointID].position, transform.position);
-		//transform.position = Vector3.MoveTowards (transform.position, PathToFollow.path_objs [CurrentWayPointID].position, Time.deltaTime*currentspeed);
 
-		var rotation = Quaternion.LookRotation (PathToFollow.path_objs [CurrentWayPointID].position - transform.position);
-		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * currentrotationSpeed);
-
-
-		if (distance <= reachDistance) {
-			CurrentWayPointID++;
-		
-		}
 
 
 
@@ -111,6 +100,20 @@ public class DesertWandererAI: MonoBehaviour {
 		//WHAT HAPPENS IF NOT IN THE SHADE
 
 		if (state == wandering) {
+
+			//PathFollow ();
+			//path follow
+			float distance = Vector3.Distance(PathToFollow.path_objs[CurrentWayPointID].position, transform.position);
+			//transform.position = Vector3.MoveTowards (transform.position, PathToFollow.path_objs [CurrentWayPointID].position, Time.deltaTime*currentspeed);
+
+			var rotation = Quaternion.LookRotation (PathToFollow.path_objs [CurrentWayPointID].position - transform.position);
+			transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * currentrotationSpeed);
+
+
+			if (distance <= reachDistance) {
+				CurrentWayPointID++;
+
+			}
 			if (!inshade) {
 				if (heat > 0.2f) {
 					//if heated
@@ -130,10 +133,11 @@ public class DesertWandererAI: MonoBehaviour {
 			
 
 			}
-			if (heat >= 1 && tiredness >= 1) {
+			if (tiredness >= 1) {
 				SetState (resting);
 			}
 		}
+
 		if (state == resting) {
 			if (heat <= 0 && tiredness <= 0) {
 				SetState (wandering);
@@ -171,6 +175,7 @@ public class DesertWandererAI: MonoBehaviour {
 		case wandering:
 			//gets up and continues walking
 			state = wandering;
+			StartCoroutine (FootPrintTiming (1));
 			break;
 
 		case sawSomething:
@@ -336,14 +341,24 @@ public class DesertWandererAI: MonoBehaviour {
 					}
 				} else {
 				//if sleeping in the sun and becomes too hot, he dies
-					if (heat >= 1) {
-					SetState (resting);
-					}
 				}
 		}
 	}
 		
+	void PathFollow(){
+		//path follow
+		float distance = Vector3.Distance(PathToFollow.path_objs[CurrentWayPointID].position, transform.position);
+		//transform.position = Vector3.MoveTowards (transform.position, PathToFollow.path_objs [CurrentWayPointID].position, Time.deltaTime*currentspeed);
 
+		var rotation = Quaternion.LookRotation (PathToFollow.path_objs [CurrentWayPointID].position - transform.position);
+		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * currentrotationSpeed);
+
+
+		if (distance <= reachDistance) {
+			CurrentWayPointID++;
+
+		}
+	}
 
 
 	void StateIndicator(){

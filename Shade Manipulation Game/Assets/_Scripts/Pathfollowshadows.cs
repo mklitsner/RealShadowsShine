@@ -11,30 +11,51 @@ public class Pathfollowshadows : MonoBehaviour {
 	private float reachDistance = 1.0f;
 	public string pathName;
 
-	bool inshade;
+	bool inShadeAtLastCheck = false;
 
 	public float currentspeed;
 
 	float rotationSpeed;
 
+	float waitTime;
+
 	Vector3 last_position;
 	Vector3 current_position;
 	//
 	// Use this for initialization
+
+
+	float timeToStartMovingAgain = float.NegativeInfinity;
+	public enum ShadeWaitState {
+		Moving,
+		WaitingToLoseShade
+	}
+
+	public ShadeWaitState state = ShadeWaitState.Moving;
+
+
 	void Start () {
 		rotationSpeed = 5;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		inshade = GetComponentInChildren<DetectShade> ().inshade;
+		bool inshade = GetComponentInChildren<DetectShade> ().inshade;
 
 
 		float distance = Vector3.Distance(PathToFollow.path_objs[CurrentWayPointID].position, transform.position);
 
-		if (!inshade) {
+		bool shouldMove = 
+			//!inshade; //original
+			state == ShadeWaitState.Moving;
+
+			if (shouldMove) {
 			transform.position = Vector3.MoveTowards (transform.position, PathToFollow.path_objs [CurrentWayPointID].position, Time.deltaTime * currentspeed);
 		}
+
+
+
+
 		var rotation = Quaternion.LookRotation (PathToFollow.path_objs [CurrentWayPointID].position - transform.position);
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime*rotationSpeed);
 
@@ -49,6 +70,22 @@ public class Pathfollowshadows : MonoBehaviour {
 			}
 
 
+
+
+		if (inshade){ //&& !inShadeAtLastCheck) { //instant enter shade
+
+			state = ShadeWaitState.WaitingToLoseShade;
+			timeToStartMovingAgain = Time.time + 3;
 		
+		} 
+
+			if (Time.time > timeToStartMovingAgain) 
+			{
+				state = ShadeWaitState.Moving;
+			}
+
+
+
+		inShadeAtLastCheck = inshade;
 	}
 }

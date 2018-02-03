@@ -25,6 +25,8 @@ public float sensitivity = 1f;
 	//0=shade at 12oclock
 	//180= shade at 6oclock
 
+	//public float timeOfLastInput
+
 	// Use this for initialization
 	void Start () {
 	}

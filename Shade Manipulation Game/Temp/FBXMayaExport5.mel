@@ -1,0 +1,22 @@
+print "Starting maya loading and fbx conversion \n";
+	
+if (`file -q -exists "/home/users/mklitsner/Documents/GitHub/RealShadowsShine/Shade Manipulation Game/Assets/Models/Terrain/hole.mb"`)
+{		
+	file -o "/home/users/mklitsner/Documents/GitHub/RealShadowsShine/Shade Manipulation Game/Assets/Models/Terrain/hole.mb";
+	FBXExportEmbeddedTextures -v false;
+	// FBXExportHardEdges -v true;
+	FBXExportApplyConstantKeyReducer -v false;
+	FBXExportShowUI -v false;
+
+	print "Before fbx export\n";
+	FBXExport -f "/home/users/mklitsner/Documents/GitHub/RealShadowsShine/Shade Manipulation Game/Temp/ExportedFBXFile.fbx";
+	print "after fbx export\n";
+}
+else
+	print "Could not open Maya file.";
+
+sysFile -delete "/home/users/mklitsner/Documents/GitHub/RealShadowsShine/Shade Manipulation Game/Temp/CommandPipe";
+
+$donepipeKill = `fopen "/home/users/mklitsner/Documents/GitHub/RealShadowsShine/Shade Manipulation Game/Temp/SyncPipeKill" "w"`;
+fwrite $donepipeKill "Done";
+fclose $donepipeKill;

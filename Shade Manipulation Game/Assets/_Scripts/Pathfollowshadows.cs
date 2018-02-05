@@ -66,7 +66,7 @@ public class Pathfollowshadows : MonoBehaviour {
 		}
 
 			if(CurrentWayPointID>=PathToFollow.path_objs.Count){
-				CurrentWayPointID=0;
+			CurrentWayPointID=PathToFollow.path_objs.Count;
 			}
 
 
@@ -75,7 +75,7 @@ public class Pathfollowshadows : MonoBehaviour {
 		if (inshade){ //&& !inShadeAtLastCheck) { //instant enter shade
 
 			state = ShadeWaitState.WaitingToLoseShade;
-			timeToStartMovingAgain = Time.time + 3;
+			timeToStartMovingAgain = Time.time + 1;
 		
 		} 
 

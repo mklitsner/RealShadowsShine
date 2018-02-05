@@ -49,7 +49,7 @@ public class DesertWandererAI: MonoBehaviour {
 
 	public EditorPathScript PathToFollow;
 
-	public int CurrentWayPointID = 0;
+	public int CurrentWayPointID;
 	private float reachDistance = 1.0f;
 	public string pathName;
 
@@ -74,7 +74,7 @@ public class DesertWandererAI: MonoBehaviour {
 		maxDistance = 5;
 
 		speed = 2;
-		CurrentWayPointID = 0;
+	
 
 
 		//path follow

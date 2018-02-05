@@ -17,7 +17,7 @@ public class Pathfollowshadows : MonoBehaviour {
 
 	float rotationSpeed;
 
-	float waitTime;
+	public int FinalWaypoint;
 
 	Vector3 last_position;
 	Vector3 current_position;
@@ -36,6 +36,8 @@ public class Pathfollowshadows : MonoBehaviour {
 
 	void Start () {
 		rotationSpeed = 5;
+
+
 	}
 	
 	// Update is called once per frame
@@ -66,7 +68,11 @@ public class Pathfollowshadows : MonoBehaviour {
 		}
 
 			if(CurrentWayPointID>=PathToFollow.path_objs.Count){
-			CurrentWayPointID=PathToFollow.path_objs.Count;
+			if (FinalWaypoint == -1) {
+				Destroy(transform.parent.gameObject);
+			} else {
+				CurrentWayPointID = FinalWaypoint;
+			}
 			}
 
 

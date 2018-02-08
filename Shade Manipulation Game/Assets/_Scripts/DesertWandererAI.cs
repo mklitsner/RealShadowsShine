@@ -24,7 +24,7 @@ public class DesertWandererAI: MonoBehaviour {
 
 	float rotationSpeed;
 	float currentrotationSpeed;
-	float rotationFrequency;
+
 
 	Vector3 globalRotation;
 	float turnangle;
@@ -65,7 +65,7 @@ public class DesertWandererAI: MonoBehaviour {
 		footprints = true;
 		state = resting;
 		rotationSpeed=1;
-		rotationFrequency=1;
+
 		SetState (wandering);
 		footprintSide = 1;
 		initialwanderingtime = 5;
@@ -198,7 +198,8 @@ public class DesertWandererAI: MonoBehaviour {
 	void MoveForward(float _speed){
 		//set wavering parameters
 		//float newrotationFrequency = (heat + 1) * rotationFrequency;
-		float _angle = Mathf.Cos (Time.time) * currentrotationSpeed;
+		float _rotationFrequency =2;
+		float _angle = Mathf.Cos (Time.time*_rotationFrequency) * currentrotationSpeed;
 
 		transform.Translate (0, 0, _speed * Time.deltaTime);
 		//waver

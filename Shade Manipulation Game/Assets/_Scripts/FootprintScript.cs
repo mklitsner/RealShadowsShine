@@ -19,7 +19,8 @@ public class FootprintScript : MonoBehaviour {
 		Timer ();
 
 		if (lifeleft <= 0) {
-			Destroy (gameObject);
+			StartCoroutine(FadeTo(0.0f, 1.0f));
+
 		}
 
 		direction = transform.eulerAngles;
@@ -29,5 +30,18 @@ public class FootprintScript : MonoBehaviour {
 
 	void Timer(){
 		lifeleft = lifeleft - Time.deltaTime;
+	}
+
+
+	IEnumerator FadeTo(float aValue, float aTime)
+	{
+		float alpha = transform.GetComponent<SpriteRenderer>().material.color.a;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+		{
+			Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+			transform.GetComponent<SpriteRenderer>().material.color = newColor;
+			yield return null;
+		}
+		Destroy (gameObject);
 	}
 }

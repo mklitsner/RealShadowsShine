@@ -16,7 +16,7 @@ public class DarkenWithHeat : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.GetComponent<MeshRenderer> ().material.color=currentColor;
+		transform.GetComponent<SkinnedMeshRenderer> ().material.color=currentColor;
 		heat = transform.parent.GetComponent<DesertWandererAI> ().heat;
 
 

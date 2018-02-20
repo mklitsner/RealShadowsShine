@@ -9,12 +9,18 @@ public class BlendFlower : MonoBehaviour {
 	public int blendShapeSelected;
 	public bool bloomed;
 	public float rise;
+	public float time;
 	float blend;
 	// Use this for initialization
 	void Start () {
+
+
+
 		skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer> ();
 		skinnedMesh = GetComponent<SkinnedMeshRenderer> ().sharedMesh;
 		blendShapeCount = skinnedMesh.blendShapeCount; 
+		transform.Translate (0, -rise, 0, 0);
+		skinnedMeshRenderer.SetBlendShapeWeight (blendShapeSelected, 0);
 	}
 	
 	// Update is called once per frame
@@ -23,12 +29,11 @@ public class BlendFlower : MonoBehaviour {
 
 		if (inshade & !bloomed) {
 			//start blooming until fully bloomed
-			StartCoroutine(Bloom(100,2.0f));	
+			StartCoroutine(Bloom(100,time));	
 		}
 
-		if (bloomed) {
+		if (bloomed && !inshade) {
 			//if bloomed and not in shade, wait, and then shrink 
-		
 		}
 
 	}
@@ -44,4 +49,5 @@ public class BlendFlower : MonoBehaviour {
 		}
 
 	}
+		
 }

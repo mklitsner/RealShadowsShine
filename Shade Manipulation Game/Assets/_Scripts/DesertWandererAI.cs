@@ -310,7 +310,7 @@ public class DesertWandererAI: MonoBehaviour {
 	void SetHeat(float _increaseheat,float _decreaseheat){
 		if(inshade){
 			if(heat<=0){
-				heat = 0;
+				heat = 0;	
 			}else{
 				heat = heat-_decreaseheat;
 				}

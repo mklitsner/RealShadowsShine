@@ -52,6 +52,7 @@ public class DesertWandererAI: MonoBehaviour {
 	public int CurrentWayPointID;
 	private float reachDistance = 1.0f;
 	public string pathName;
+	public bool EndOfPath;
 
 	Vector3 last_position;
 	Vector3 current_position;
@@ -114,6 +115,11 @@ public class DesertWandererAI: MonoBehaviour {
 				CurrentWayPointID++;
 
 			}
+			if (CurrentWayPointID >= PathToFollow.path_objs.Count) {
+				EndOfPath = true;
+			}
+
+
 			if (!inshade) {
 				if (heat > 0.2f) {
 					//if heated
@@ -303,9 +309,6 @@ public class DesertWandererAI: MonoBehaviour {
 
 	void SetHeat(float _increaseheat,float _decreaseheat){
 		if(inshade){
-			if (heat > 0.5f) {
-				heat = 0.5f;
-			}
 			if(heat<=0){
 				heat = 0;
 			}else{

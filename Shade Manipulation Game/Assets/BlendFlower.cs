@@ -21,19 +21,27 @@ public class BlendFlower : MonoBehaviour {
 		blendShapeCount = skinnedMesh.blendShapeCount; 
 		transform.Translate (0, -rise, 0, 0);
 		skinnedMeshRenderer.SetBlendShapeWeight (blendShapeSelected, 0);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		bool inshade= GetComponentInChildren<DetectShade> ().inshade;
+		
 
-		if (inshade & !bloomed) {
-			//start blooming until fully bloomed
-			StartCoroutine(Bloom(100,time));	
-		}
 
-		if (bloomed && !inshade) {
-			//if bloomed and not in shade, wait, and then shrink 
+		if (transform.GetComponent<BlendFlowerChild>()!=null) {
+			float i = transform.parent.GetComponent<GrowInshade> ().i;
+			skinnedMeshRenderer.SetBlendShapeWeight (blendShapeSelected,Mathf.Lerp(blend,100,i));
+		} else {
+			bool inshade= GetComponentInChildren<DetectShade> ().inshade;
+			if (inshade & !bloomed) {
+				//start blooming until fully bloomed
+				StartCoroutine (Bloom (100, time));	
+			}
+
+			if (bloomed && !inshade) {
+				//if bloomed and not in shade, wait, and then shrink 
+			}
 		}
 
 	}

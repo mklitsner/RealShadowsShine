@@ -15,15 +15,20 @@ public class GrowInshade : MonoBehaviour {
 	public float stayLimit=1.1f;
 	public bool stay;
 	//set to above one if you want a stay 
-	float i = 0.0f;
+	public float i = 0.0f;
+	public bool maxScaleIsStart;
 
 
-
+	void Start(){
+		if(maxScaleIsStart){
+			maxScale = transform.lossyScale;
+		}
+	}
 	// Use this for initialization
 
 
 	void Update(){
-		bool inshade = transform.parent.GetComponent<DetectShade> ().inshade;
+		bool inshade = transform.parent.GetComponentInChildren<DetectShade> ().inshade;
 
 		float rate_1 = (1.0f / duration) * growSpeed;
 		float rate_2 = (1.0f / duration) * shrinkSpeed;
@@ -40,7 +45,7 @@ public class GrowInshade : MonoBehaviour {
 				stay = true;
 			}
 		}
-		transform.localScale = Vector3.Slerp (minScale, maxScale, i);
+		transform.localScale = Vector3.Lerp (minScale, maxScale, i);
 	}
 
 

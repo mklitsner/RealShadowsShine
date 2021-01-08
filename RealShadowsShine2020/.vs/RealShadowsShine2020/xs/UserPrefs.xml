@@ -1,0 +1,23 @@
+﻿<Properties StartupConfiguration="{23EBDBC9-D526-1282-F92A-5E6DBD11F501}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Scripts/BlendFlower.cs">
+    <Files>
+      <File FileName="Assets/HeatwaveUI.cs" Line="25" Column="11" />
+      <File FileName="Assets/Flower.cs" Line="56" Column="15" />
+      <File FileName="Assets/_Scripts/HeatwaveAnimationBehavior.cs" Line="22" Column="35" />
+      <File FileName="Assets/Manager.cs" Line="36" Column="1" />
+      <File FileName="Assets/AudioManager.cs" Line="16" Column="19" />
+      <File FileName="Assets/_Scripts/OldScripts/Backgroundmusic.cs" Line="9" Column="49" />
+      <File FileName="Assets/_Scripts/RotateOSC.cs" Line="86" Column="19" />
+      <File FileName="Assets/_Scripts/NextScene.cs" Line="1" Column="1" />
+      <File FileName="Assets/_Scripts/SceneChange.cs" Line="30" Column="26" />
+      <File FileName="Assets/_Scripts/BlendFlower.cs" Line="11" Column="44" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
